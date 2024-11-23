@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "315179533012",
+    "project_id": "luzmed-79fc9",
+    "storage_bucket": "luzmed-79fc9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315179533012:android:ea4846d85cf3887219f141",
+        "android_client_info": {
+          "package_name": "com.example.luzmed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWzA_qstqTPmU7kvU4SoEuV1CJ3z6t5X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
