@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luzmed/views/home_page.dart';
 import './login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,12 +7,16 @@ class SignIn extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void _registerUser(BuildContext) async {
+  void _registerUser (BuildContext context) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } catch (e) {
       print("Error: $e");
@@ -58,24 +63,53 @@ class SignIn extends StatelessWidget {
                         children: [
                           TextField(
                             controller: emailController,
-                            decoration: const InputDecoration(
-                                labelText: 'Email@exemplo.com'),
+                            decoration: InputDecoration(
+                              labelText: 'Email@exemplo.com',
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
+                          const SizedBox(height: 30),
                           TextField(
                             controller: passwordController,
-                            decoration:
-                                const InputDecoration(labelText: 'Senha'),
+                            decoration: InputDecoration(
+                              labelText: 'Senha',
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
                             obscureText: true,
                           ),
-                          const SizedBox(
-                            height: 40,
-                          ),
+                          const SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed: () => _registerUser(context),
+                            onPressed: () => _registerUser (context),
                             child: const Text('Registrar'),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                              textStyle: const TextStyle(fontSize: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 30,

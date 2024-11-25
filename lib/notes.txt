@@ -1,0 +1,12 @@
+codigo de login do firebase:
+void _registerUser(BuildContext) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+    } catch (e) {
+      print("Error: $e");
+    }
+}
