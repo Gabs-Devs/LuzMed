@@ -60,17 +60,50 @@ class Login extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text(
+                        "Entre na sua conta",
+                        style: TextStyle(
+                            fontSize: 38,
+                            color: Color.fromRGBO(94, 110, 165, 50),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 30,),
                       TextField(
                         controller: emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                        ),
+                        decoration: InputDecoration(
+                              labelText: 'Email',
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
                       ),
+                      SizedBox(height: 30),
                       TextField(
                         controller: passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                        ),
+                        decoration: InputDecoration(
+                              labelText: 'Senha',
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor,
+                                    width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
                         obscureText: true,
                       ),
                       const SizedBox(height: 16.0),
