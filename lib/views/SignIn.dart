@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:luzmed/views/home_page.dart';
+import 'package:luzmed/views/widgets/btn.dart';
+import 'package:luzmed/views/widgets/inputEmail.dart';
+import 'package:luzmed/views/widgets/inputPswrd.dart';
 import './login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -61,55 +64,21 @@ class SignIn extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          TextField(
+                          InputWidgetEmail(
+                            emailLabelText: "Email",
+                            emailHintText: "Email@example.com",
                             controller: emailController,
-                            decoration: InputDecoration(
-                              labelText: 'Email@exemplo.com',
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1.0),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
                           ),
                           const SizedBox(height: 30),
-                          TextField(
+                          InputWidgetPswrd(
+                            passwordHintText: "Senha",
+                            passwordLabelText: "Coloque sua senha",
                             controller: passwordController,
-                            decoration: InputDecoration(
-                              labelText: 'Senha',
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1.0),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
-                            obscureText: true,
                           ),
                           const SizedBox(height: 40),
-                          ElevatedButton(
+                          AnimatedButton(
+                            buttonText: 'Registrar',
                             onPressed: () => _registerUser (context),
-                            child: const Text('Registrar'),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                              textStyle: const TextStyle(fontSize: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
                           ),
                           const SizedBox(
                             height: 30,
