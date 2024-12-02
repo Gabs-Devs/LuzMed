@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() => runApp(const MaterialApp(home: HomePage()));
@@ -16,8 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser ;
+    final User? user = FirebaseAuth.instance.currentUser ;
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(234, 239, 255, 1),
@@ -41,36 +41,51 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.height * 0.15,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(120, 147, 239, 1),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(25),
-                bottomRight: Radius.circular(25),
-              ),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Bem-vindo, DR. ${user?.email ?? "usuário"}',
-                    style: const TextStyle(
-                        fontSize: 14.15,
-                        color: Color.fromRGBO(234, 239, 255, 1)),
+          FutureBuilder<DocumentSnapshot>(
+            future: user != null
+                ? FirebaseFirestore.instance.collection('users').doc(user.uid).get()
+                : Future.value(null),
+            builder: (context, snapshot) {
+              String welcomeMessage = "Bem-vindo, usuário";
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  welcomeMessage = 'Bem-vindo, DR. ${snapshot.data!['name'] ?? "usuário"}';
+                } else if (snapshot.hasError) {
+                  welcomeMessage = 'Erro ao carregar nome';
+                }
+              }
+              return Container(
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.15,
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(120, 147, 239, 1),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
                   ),
-                  const SizedBox(height: 30),
-                  const Text(
-                    "O que deseja fazer hoje?",
-                    style: TextStyle(
-                        fontSize: 14.15,
-                        color: Color.fromRGBO(234, 239, 255, 1)),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        welcomeMessage,
+                        style: const TextStyle(
+                            fontSize: 14.15,
+                            color: Color.fromRGBO(234, 239, 255, 1)),
+                      ),
+                      const SizedBox(height: 30),
+                      const Text(
+                        "O que deseja fazer hoje?",
+                        style: TextStyle(
+                            fontSize: 14.15,
+                            color: Color.fromRGBO(234, 239, 255, 1)),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
           Expanded(
             child: SafeArea(
@@ -142,52 +157,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCard(BuildContext context, String title) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailPage(title: title)),
-        );
-      },
+    return Card(
+      elevation: 4,
       child: Container(
-        width : MediaQuery.of(context).size.width * 0.25,
+        width: MediaQuery.of(context).size.width * 0.25,
         height: MediaQuery.of(context).size.height * 0.15,
-        decoration: const BoxDecoration(
-          color: Color.fromRGBO(120, 147, 239, 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DetailPage extends StatelessWidget {
-  final String title;
-
-  const DetailPage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Bem-vindo à $title',
-          style: const TextStyle(fontSize: 24),
-        ),
+        alignment: Alignment.center,
+        child: Text(title, style: const TextStyle(fontSize: 16)),
       ),
     );
   }

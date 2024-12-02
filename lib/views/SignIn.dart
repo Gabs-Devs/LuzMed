@@ -5,18 +5,25 @@ import 'package:luzmed/views/widgets/inputEmail.dart';
 import 'package:luzmed/views/widgets/inputPswrd.dart';
 import './login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignIn extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   void _registerUser (BuildContext context) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+        'name': nameController.text,
+        'email': emailController.text,
+      });
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
@@ -64,6 +71,12 @@ class SignIn extends StatelessWidget {
                       ),
                       Column(
                         children: [
+                          InputWidgetEmail(
+                            emailLabelText: "Nome",
+                            emailHintText: "Seu nome de usuario",
+                            controller: nameController,
+                          ),
+                          const SizedBox(height: 30),
                           InputWidgetEmail(
                             emailLabelText: "Email",
                             emailHintText: "Email@example.com",

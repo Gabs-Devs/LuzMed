@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:luzmed/views/widgets/btn.dart';
+import 'package:luzmed/views/widgets/inputEmail.dart';
+import 'package:luzmed/views/widgets/inputPswrd.dart';
 import 'SignIn.dart';
 import 'forget_password.dart';
 import 'home_page.dart';
@@ -9,7 +11,7 @@ class Login extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void _loginUser(BuildContext context) async {
+  void _loginUser (BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
@@ -45,17 +47,17 @@ class Login extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(234, 239, 255, 20),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(64),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(234, 239, 255, 20),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(64),
+                ),
               ),
-            ),
-            child: SafeArea(
-              top: false,
-              child: SingleChildScrollView(
+              child: SafeArea(
+                top: false,
+                child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,49 +69,22 @@ class Login extends StatelessWidget {
                             color: Color.fromRGBO(94, 110, 165, 50),
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 30,),
-                      TextField(
+                      const SizedBox(height: 30),
+                      InputWidgetEmail(
                         controller: emailController,
-                        decoration: InputDecoration(
-                              labelText: 'Email',
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1.0),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
+                        emailLabelText: "Email",
+                        emailHintText: "Coloque seu email",
                       ),
-                      SizedBox(height: 30),
-                      TextField(
+                      const SizedBox(height: 30),
+                      InputWidgetPswrd(
                         controller: passwordController,
-                        decoration: InputDecoration(
-                              labelText: 'Senha',
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1.0),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
-                        obscureText: true,
+                        passwordLabelText: "Senha",
+                        passwordHintText: "Coloque sua senha",
                       ),
                       const SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () => _loginUser(context),
-                        child: const Text('Login'),
+                      AnimatedButton(
+                        buttonText: 'Login',
+                        onPressed: () => _loginUser (context),
                       ),
                       const SizedBox(height: 16.0),
                       Row(
@@ -140,9 +115,11 @@ class Login extends StatelessWidget {
                         ],
                       )
                     ],
-                  )),
+                  ),
+                ),
+              ),
             ),
-          ))
+          ),
         ],
       ),
     );
