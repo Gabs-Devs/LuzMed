@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:luzmed/views/search.dart';
 
 void main() => runApp(const MaterialApp(home: HomePage()));
 
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage> {
             page = const Placeholder();
             break;
           case 'Hospitais':
-            page = const Placeholder();
+            page = UserSearchScreen();
             break;
           case 'Detalhes sobre o app':
             page = const Placeholder();
