@@ -1,65 +1,94 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:luzmed/views/SignIn.dart';
+import 'package:luzmed/views/widgets/btn.dart';
 
-class select_screen extends StatefulWidget {
-  const select_screen({super.key});
+class SelectScreen extends StatefulWidget {
+  const SelectScreen({super.key});
 
   @override
-  State<select_screen> createState() => _select_screenState();
+  State<SelectScreen> createState() => _SelectScreenState();
 }
 
-class _select_screenState extends State<select_screen> {
+class _SelectScreenState extends State<SelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(94, 110, 165, 4),
+      backgroundColor: const Color.fromRGBO(94, 110, 165, 1),
       body: Column(
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.3,
             decoration: const BoxDecoration(
-              color: Color.fromRGBO(94, 110, 165, 50),
+              color: Color.fromRGBO(94, 110, 165, 1),
+            ),
+            child: const Center(
+              child: Text(
+                "LuzMed",
+                style: TextStyle(
+                    fontSize: 38, color: Color.fromRGBO(234, 239, 255, 1)),
+              ),
             ),
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(234, 239, 255, 20),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(64),
-                topRight: Radius.circular(64)
+              width: MediaQuery.of(context).size.width ,
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(234, 239, 255, 1),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(64),
+                ),
               ),
-            ),
-            child: SafeArea(
-              top: false,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
+              child: SafeArea(
+                top: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
                         "Bem vindo!",
                         style: TextStyle(
-                            fontSize: 38,
-                            color: Color.fromRGBO(94, 110, 165, 50),
-                            fontWeight: FontWeight.bold),
+                          fontSize: 38,
+                          color: Color.fromRGBO(94, 110, 165, 1),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         "Você é",
                         style: TextStyle(
-                            fontSize: 23.48,
-                            color: Color.fromRGBO(94, 110, 165, 50),
-                            fontWeight: FontWeight.bold),
+                          fontSize: 23.48,
+                          color: Color.fromRGBO(94, 110, 165, 1),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      
-                  ],
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                      AnimatedButton(
+                        buttonText: 'Médico',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignIn()),
+                          );
+                        },
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+                      AnimatedButton(
+                        buttonText: 'Hospital',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignIn()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
             ),
-            )
-          )
+          ),
         ],
       ),
     );

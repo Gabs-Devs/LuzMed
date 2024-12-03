@@ -24,7 +24,7 @@ class LuzMed extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignIn(),
+      home: SelectScreen(),
     );
   }
 }

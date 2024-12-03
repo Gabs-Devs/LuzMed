@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = FirebaseAuth.instance.currentUser ;
+    final User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(234, 239, 255, 1),
@@ -43,13 +43,17 @@ class _HomePageState extends State<HomePage> {
           ),
           FutureBuilder<DocumentSnapshot>(
             future: user != null
-                ? FirebaseFirestore.instance.collection('users').doc(user.uid).get()
+                ? FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .get()
                 : Future.value(null),
             builder: (context, snapshot) {
               String welcomeMessage = "Bem-vindo, usuário";
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData && snapshot.data != null) {
-                  welcomeMessage = 'Bem-vindo, DR. ${snapshot.data!['name'] ?? "usuário"}';
+                  welcomeMessage =
+                      'Bem-vindo, DR. ${snapshot.data!['name'] ?? "usuário"}';
                 } else if (snapshot.hasError) {
                   welcomeMessage = 'Erro ao carregar nome';
                 }
@@ -98,18 +102,18 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildCard(context, 'Card 1'),
-                        _buildCard(context, 'Card 2'),
-                        _buildCard(context, 'Card 3'),
+                        _buildCard(context, 'Noticias'),
+                        _buildCard(context, 'Principais demandas'),
+                        _buildCard(context, 'FAQ'),
                       ],
                     ),
                     const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildCard(context, 'Card 4'),
-                        _buildCard(context, 'Card 5'),
-                        _buildCard(context, 'Card 6'),
+                        _buildCard(context, 'Perfil'),
+                        _buildCard(context, 'Hospitais'),
+                        _buildCard(context, 'Detalhes sobre o app'),
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -134,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 _selectedIndex = index;
               });
             },
-            tabBackgroundColor: Colors.grey.shade800,
+            tabBackgroundColor: Color.fromRGBO(120, 147, 239, 1),
             padding: const EdgeInsets.all(16),
             tabs: const [
               GButton(
@@ -157,13 +161,52 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCard(BuildContext context, String title) {
-    return Card(
-      elevation: 4,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.25,
-        height: MediaQuery.of(context).size.height * 0.15,
-        alignment: Alignment.center,
-        child: Text(title, style: const TextStyle(fontSize: 16)),
+    return GestureDetector(
+      onTap: () {
+        Widget page;
+        switch (title) {
+          case 'Noticias':
+            page = const Placeholder();
+            break;
+          case 'Principais demandas':
+            page = const Placeholder();
+            break;
+          case 'FAQ':
+            page = const Placeholder();
+            break;
+          case 'Perfil':
+            page = const Placeholder();
+            break;
+          case 'Hospitais':
+            page = const Placeholder();
+            break;
+          case 'Detalhes sobre o app':
+            page = const Placeholder();
+            break;
+          default:
+            page = const Placeholder();
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: Card(
+        elevation: 4,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.25,
+          height: MediaQuery.of(context).size.height * 0.15,
+          alignment: Alignment.center,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              color: const Color.fromRGBO(94, 110, 165, 1),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }
