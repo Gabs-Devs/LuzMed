@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:luzmed/views/home_page_hospital.dart';
+import 'package:luzmed/views/home_page.dart';
 import 'package:luzmed/views/search.dart';
+import 'package:luzmed/views/searchhospital.dart';
 
 class ProfileMedico extends StatefulWidget {
   const ProfileMedico({Key? key}) : super(key: key);
@@ -46,12 +47,12 @@ class _ProfileMedicoState extends State<ProfileMedico> {
               if (index == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserSearchScreen()),
+                  MaterialPageRoute(builder: (context) => HospitalSearchScreen()),
                 );
               }
               if (index == 0) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePageHospital()));
+                    MaterialPageRoute(builder: (context) => HomePage()));
               }
               if (index == 2) {
                 Navigator.push(context,
