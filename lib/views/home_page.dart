@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:luzmed/views/search.dart';
+import 'package:luzmed/views/extras.dart';
+import 'package:luzmed/views/perfil.dart';
+import 'package:luzmed/views/searchhospital.dart';
 
 void main() => runApp(const MaterialApp(home: HomePage()));
 
@@ -138,6 +140,21 @@ class _HomePageState extends State<HomePage> {
               setState(() {
                 _selectedIndex = index;
               });
+              if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HospitalSearchScreen()),
+                );
+              }
+              if (index == 0) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              }
+              if (index == 2) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileMedico()));
+              }
             },
             tabBackgroundColor: Color.fromRGBO(120, 147, 239, 1),
             padding: const EdgeInsets.all(16),
@@ -167,22 +184,22 @@ class _HomePageState extends State<HomePage> {
         Widget page;
         switch (title) {
           case 'Noticias':
-            page = const Placeholder();
+            page = const NoticiasScreen();
             break;
           case 'Principais demandas':
-            page = const Placeholder();
+            page = const PrincipaisDemandasScreen();
             break;
           case 'FAQ':
-            page = const Placeholder();
+            page = const FAQScreen();
             break;
           case 'Perfil':
-            page = const Placeholder();
+            page = ProfileMedico();
             break;
           case 'Hospitais':
-            page = UserSearchScreen();
+            page = HospitalSearchScreen();
             break;
           case 'Detalhes sobre o app':
-            page = const Placeholder();
+            page = const DetalhesAppScreen();
             break;
           default:
             page = const Placeholder();

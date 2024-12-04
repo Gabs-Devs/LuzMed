@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:luzmed/views/SignInHospital.dart';
 import 'package:luzmed/views/widgets/btn.dart';
 import 'package:luzmed/views/widgets/inputEmail.dart';
 import 'package:luzmed/views/widgets/inputPswrd.dart';
-import 'SignIn.dart';
 import 'forget_password.dart';
 import 'home_page.dart';
 
-class Login extends StatelessWidget {
+class LoginHospital extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -63,7 +63,7 @@ class Login extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Entre na sua conta de medico!",
+                        "Entre na sua conta do seu hospital!",
                         style: TextStyle(
                             fontSize: 38,
                             color: Color.fromRGBO(94, 110, 165, 50),
@@ -102,7 +102,7 @@ class Login extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignIn()));
+                                      builder: (context) => SignInHospital()));
                             },
                             child: const Text(
                               "Crie uma!",

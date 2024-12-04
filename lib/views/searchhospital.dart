@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:luzmed/views/home_page_hospital.dart';
+import 'package:luzmed/views/perfilhospital.dart';
 import 'home_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-class UserSearchScreen extends StatefulWidget {
+class HospitalSearchScreen extends StatefulWidget {
   @override
-  UserSearchScreenState createState() => UserSearchScreenState();
+  HospitalSearchScreenState createState() => HospitalSearchScreenState();
 }
 
-class UserSearchScreenState extends State<UserSearchScreen> {
+class HospitalSearchScreenState extends State<HospitalSearchScreen> {
   String searchQuery = '';
   int _selectedIndex = 1;
 
@@ -43,7 +45,7 @@ class UserSearchScreenState extends State<UserSearchScreen> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Pesquisa de Médicos'),
+          title: Text('Pesquisa de Hospitais'),
           backgroundColor: Color.fromRGBO(234, 239, 255, 1),
         ),
         backgroundColor: Color.fromRGBO(234, 239, 255, 1),
@@ -65,7 +67,7 @@ class UserSearchScreenState extends State<UserSearchScreen> {
                 ),
                 child: TextField(
                   decoration: InputDecoration(
-                    labelText: 'Buscar por Especialidade',
+                    labelText: 'Buscar por Nome',
                     labelStyle: TextStyle(color: Colors.white),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -81,21 +83,21 @@ class UserSearchScreenState extends State<UserSearchScreen> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                stream: FirebaseFirestore.instance.collection('hospital').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  final users = snapshot.data!.docs.where((user) {
-                    final especialidade = user['Especialidade'].toString().toLowerCase();
-                    return especialidade.contains(searchQuery);
+                  final hospitals = snapshot.data!.docs.where((hospital) {
+                    final name = hospital['name'].toString().toLowerCase();
+                    return name.contains(searchQuery);
                   }).toList();
 
                   return ListView.builder(
-                    itemCount: users.length,
+                    itemCount: hospitals.length,
                     itemBuilder: (context, index) {
-                      final user = users[index];
+                      final hospital = hospitals[index];
                       return Center(
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.7,
@@ -109,28 +111,21 @@ class UserSearchScreenState extends State<UserSearchScreen> {
                                 children: [
                                   Center(
                                     child: Text(
-                                      user['name'],
+                                      hospital['name'],
                                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromRGBO(234, 239, 255, 1)),
                                     ),
                                   ),
                                   SizedBox(height: 8),
                                   Center(
                                     child: Text(
-                                      user['email'],
+                                      hospital['email'],
                                       style: TextStyle(fontSize: 16, color: Color.fromRGBO(234, 239, 255, 1)),
                                     ),
                                   ),
                                   SizedBox(height: 8),
                                   Center(
                                     child: Text(
-                                      'CRM: ${user['CRM']}',
-                                      style: TextStyle(fontSize: 16, color: Color.fromRGBO(234, 239, 255, 1)),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Center(
-                                    child: Text(
-                                      'Especialidade: ${user['Especialidade']}',
+                                      'CNPJ: ${hospital['cnpj']}',
                                       style: TextStyle(fontSize: 16, color: Color.fromRGBO(234, 239, 255, 1)),
                                     ),
                                   ),
@@ -148,35 +143,51 @@ class UserSearchScreenState extends State<UserSearchScreen> {
           ],
         ),
         bottomNavigationBar: Container(
-          color: const Color.fromRGBO(94, 110, 165, 1),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-            child: GNav(
-              backgroundColor: const Color.fromRGBO(94, 110, 165, 1),
-              color: Colors.white,
-              activeColor: Colors.white,
-              gap: 8,
-              selectedIndex: _selectedIndex,
-              onTabChange: _onTabChanged,
-              tabBackgroundColor: Color.fromRGBO(120, 147, 239, 1),
-              padding: const EdgeInsets.all(16),
-              tabs: const [
-                GButton(
-                  icon: Icons.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Icons.search,
-                  text: 'Pesquisa',
-                ),
-                GButton(
-                  icon: Icons.person,
-                  text: 'Perfil',
-                ),
-              ],
-            ),
+        color: const Color.fromRGBO(94, 110, 165, 1),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+          child: GNav(
+            backgroundColor: const Color.fromRGBO(94, 110, 165, 1),
+            color: Colors.white,
+            activeColor: Colors.white,
+            gap: 8,
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              if (index == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HospitalSearchScreen()),
+                );
+              } if (index == 0){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => HomePageHospital()));
+              }
+              if (index == 2){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfileHospital()));
+              }
+            },
+            tabBackgroundColor: Color.fromRGBO(120, 147, 239, 1),
+            padding: const EdgeInsets.all(16),
+            tabs: const [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.search,
+                text: 'Pesquisa',
+              ),
+              GButton(
+                icon: Icons.person,
+                text: 'Perfil',
+              ),
+            ],
           ),
         ),
+      ),
       ),
     );
   }

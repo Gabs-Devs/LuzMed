@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luzmed/views/SignIn.dart';
+import 'package:luzmed/views/SignInHospital.dart';
 import 'package:luzmed/views/widgets/btn.dart';
 
 class SelectScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SelectScreenState extends State<SelectScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignIn()),
+                            MaterialPageRoute(builder: (context) => SignInHospital()),
                           );
                         },
                       ),

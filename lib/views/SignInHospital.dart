@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:luzmed/views/home_page.dart';
+import 'package:luzmed/views/home_page_hospital.dart';
+import 'package:luzmed/views/loginhospital.dart';
 import 'package:luzmed/views/widgets/btn.dart';
 import 'package:luzmed/views/widgets/inputEmail.dart';
 import 'package:luzmed/views/widgets/inputPswrd.dart';
-import './login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SignIn extends StatelessWidget {
+class SignInHospital extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController crmController = TextEditingController();
-  final TextEditingController jobController = TextEditingController();
+  final TextEditingController cnpjController = TextEditingController();
 
   void _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -20,12 +20,11 @@ class SignIn extends StatelessWidget {
     );
   }
 
-  Future<void> _registerUser (BuildContext context) async {
+  Future<void> _registerUser(BuildContext context) async {
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
-        crmController.text.isEmpty ||
-        jobController.text.isEmpty) {
+        cnpjController.text.isEmpty) {
       _showSnackBar(context, "Por favor, preencha todos os campos.");
       return;
     }
@@ -47,27 +46,18 @@ class SignIn extends StatelessWidget {
         password: passwordController.text,
       );
 
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      await FirebaseFirestore.instance.collection('hospital').doc(userCredential.user!.uid).set({
         'name': nameController.text,
-        'email': email,
-        'CRM': crmController.text,
-        'Especialidade': jobController.text,
+        'email': emailController.text,
+        'cnpj': cnpjController.text,
       });
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => HomePageHospital()),
       );
     } catch (e) {
-      if (e is FirebaseAuthException) {
-        if (e.code == 'email-already-in-use') {
-          _showSnackBar(context, "Este email já está em uso.");
-        } else {
-          _showSnackBar(context, "Erro: ${e.message}");
-        }
-      } else {
-        _showSnackBar(context, "Erro: $e");
-      }
+      _showSnackBar(context, "Erro: ${e is FirebaseAuthException ? e.message : e.toString()}");
     }
   }
 
@@ -128,20 +118,14 @@ class SignIn extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           InputWidgetEmail(
-                            emailHintText: "CRM/EX 123456",
-                            emailLabelText: "CRM",
-                            controller: crmController,
-                          ),
-                          const SizedBox (height: 30),
-                          InputWidgetEmail(
-                            emailLabelText: "Especialidade",
-                            emailHintText: "Coloque sua especialidade",
-                            controller: jobController,
+                            emailHintText: "Insira aqui seu CNPJ",
+                            emailLabelText: "CNPJ",
+                            controller: cnpjController,
                           ),
                           const SizedBox(height: 40),
                           AnimatedButton(
                             buttonText: 'Registrar',
-                            onPressed: () => _registerUser (context),
+                            onPressed: () => _registerUser(context),
                           ),
                           const SizedBox(
                             height: 30,
@@ -163,7 +147,7 @@ class SignIn extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Login()));
+                                      builder: (context) => LoginHospital()));
                             },
                             child: const Text(
                               "Entre nela!",
